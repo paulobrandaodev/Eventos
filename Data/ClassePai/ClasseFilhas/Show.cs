@@ -6,8 +6,9 @@ namespace Data.ClassePai.ClasseFilhas
 {
     public class Show : Evento
     {
-        public string Artista { get; set; }
         public string GeneroMusical { get; set; }
+        public string Artista { get; set; }
+        
         public Show()
         {
             
