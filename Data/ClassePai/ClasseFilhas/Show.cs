@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 
 namespace Data.ClassePai.ClasseFilhas
 {
@@ -22,7 +24,82 @@ namespace Data.ClassePai.ClasseFilhas
             GeneroMusical = generoMusical;
         }
         public override bool Cadastrar(){
-            return false;
+            bool efetuado = false;
+            StreamWriter arquivo = null;
+
+            try{
+                arquivo = new StreamWriter("show.csv", true);
+                arquivo.WriteLine(
+                    Titulo+";"+
+                    Local+";"+
+                    Duracao+";"+
+                    Data+";"+
+                    Artista+";"+
+                    GeneroMusical+";"+
+                    Lotacao+";"+
+                    Classificacao
+                );
+                efetuado = true;
+            }catch(Exception e){
+                throw new Exception("Erro ao tentar gravar o arquivo : "+e);
+            }finally{
+                arquivo.Close();
+            }
+
+            return efetuado;
         }
+
+        public override string Pesquisar(string Titulo){
+            string resultado = "Título não encontrado";
+            StreamReader ler = null;
+
+            try
+            {
+                ler = new StreamReader("show.csv", Encoding.Default);
+                string linha = "";
+                while((linha = ler.ReadLine()) != null){
+                    string[] dados = linha.Split(';');
+                    if(dados[0] == Titulo){
+                        resultado = linha;
+                        break;
+                    }
+                }
+
+            }
+            catch (System.Exception e){
+                resultado = ("Erro ao tentar pesquisar o arquivo : "+e);
+            }finally{
+                ler.Close();
+            }
+
+            return resultado;
+        }
+
+        public override string Pesquisar(DateTime DataEvento){
+            string resultado = "Data não encontrada";
+            StreamReader ler = null;
+
+            try
+            {
+                ler = new StreamReader("show.csv", Encoding.Default);
+                string linha = "";
+                while((linha = ler.ReadLine()) != null){
+                    string[] dados = linha.Split(';');
+                    if(dados[3] == DataEvento.ToString()){
+                        resultado = linha;
+                        break;
+                    }
+                }
+
+            }
+            catch (System.Exception e){
+                resultado = ("Erro ao tentar pesquisar o arquivo : "+e);
+            }finally{
+                ler.Close();
+            }
+
+            return resultado;
+        }
+
     }
 }
