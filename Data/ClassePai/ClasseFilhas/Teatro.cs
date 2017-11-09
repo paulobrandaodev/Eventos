@@ -107,6 +107,37 @@ namespace Data.ClassePai.ClasseFilhas{
             return resultado;
         }
 
+        public string PesquisarAtor(string Ator){
+            string resultado = "Ator não encontrado";
+            StreamReader ler = null;
+            try
+            {
+                ler = new StreamReader("teatro.csv", Encoding.Default);
+                string linha = "";
+                while((linha = ler.ReadLine()) != null){
+                    string[] dados  = linha.Split(';');
+                    string[] atores = dados[7].Split(',');
+                        
+                        foreach(string pesquisa in atores){
+                          if(pesquisa == Ator){
+                              resultado = "O ator "+pesquisa+" faz parte do elenco da peça "+dados[0]+"";
+                              break;
+                          }
+                                                          
+                        break;
+                    }
+                }
+
+            }
+            catch (System.Exception e){
+                resultado = ("Erro ao tentar pesquisar o arquivo : "+e);
+            }finally{
+                ler.Close();
+            }
+
+            return resultado;
+        }
+
 
     }
 }
